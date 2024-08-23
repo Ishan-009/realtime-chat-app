@@ -1,5 +1,7 @@
+import ConversationContainer from '../../../../components/shared/conversations/ConversationContainer';
+
 type Props = {};
 
 export default function ConversationPage({}: Props) {
-  return <div>ConversationPage</div>;
+  return <ConversationContainer>ConversationPage</ConversationContainer>;
 }

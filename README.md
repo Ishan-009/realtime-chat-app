@@ -1,10 +1,6 @@
-# Project Setup Guide
+# Real-Time Chat App Setup Guide
 
-Follow these steps to set up and run the project:
-
-## Prerequisites
-
-- Node.js and npm (or yarn) installed on your system
+This project is a real-time chat application built with Next.js, using Clerk for authentication and Convex for real-time data synchronization. Currently, the project has implemented basic authentication and data storage.
 
 ## Setup Steps
 
@@ -15,7 +11,7 @@ Follow these steps to set up and run the project:
    cd your-project-name
    ```
 
-2. **Install Clerk and Convex DB**
+2. **Install Clerk and Convex**
 
    ```bash
    npm install @clerk/nextjs @clerk/clerk-react convex
@@ -23,7 +19,7 @@ Follow these steps to set up and run the project:
    yarn add @clerk/nextjs @clerk/clerk-react convex
    ```
 
-3. **Create Projects in Clerk and Convex DB**
+3. **Create Projects in Clerk and Convex**
 
    - Sign up or log in to [Clerk](https://clerk.com/) and create a new project
    - Sign up or log in to [Convex](https://www.convex.dev/) and create a new project
@@ -89,9 +85,20 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
+## Current Project Status
+
+At this point, the project has:
+
+- Basic authentication implemented using Clerk
+- Initial setup for storing data in Convex
+- Basic project structure and routing
+
+Next steps will involve implementing the chat functionality and real-time updates.
+
 ## Additional Information
 
 For more detailed information on configuring Clerk and Convex, please refer to their respective documentation:
 
 - [Clerk Documentation](https://clerk.com/docs)
 - [Convex Documentation](https://docs.convex.dev/)
+- [Next.js Documentation](https://nextjs.org/docs)
