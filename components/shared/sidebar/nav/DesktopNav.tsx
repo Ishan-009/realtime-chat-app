@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useNavigation } from '../../../../app/hooks/useNavigation';
 import { Button } from '../../../ui/button';
 import { Card } from '../../../ui/card';
+import { ThemeToggle } from '../../../ui/theme/theme-toggle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
-
 const DesktopNav = () => {
   const paths = useNavigation();
 
@@ -37,6 +37,7 @@ const DesktopNav = () => {
         </ul>
       </nav>
       <div className="flex flex-col items-center gap-4">
+        <ThemeToggle />
         <UserButton />
       </div>
     </Card>
