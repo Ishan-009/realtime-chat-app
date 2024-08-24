@@ -2,6 +2,7 @@
 import { UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useNavigation } from '../../../../app/hooks/useNavigation';
+import { Badge } from '../../../ui/badge';
 import { Button } from '../../../ui/button';
 import { Card } from '../../../ui/card';
 import { ThemeToggle } from '../../../ui/theme/theme-toggle';
@@ -21,10 +22,15 @@ const DesktopNav = () => {
                     <TooltipTrigger>
                       <Button
                         size="icon"
-                        variant={path.active ? 'outline' : 'default'}
+                        variant={path.active ? 'default' : 'outline'}
                       >
                         {path.icon}
                       </Button>
+                      {path.count !== undefined && path.count > 0 && (
+                        <Badge className="absolute -top-2 -right-2 px-2">
+                          {path.count}
+                        </Badge>
+                      )}
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>{path.name}</p>
