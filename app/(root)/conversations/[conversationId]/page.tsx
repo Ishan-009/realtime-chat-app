@@ -6,6 +6,8 @@ import ConversationContainer from '../../../../components/shared/conversations/C
 import { api } from '../../../../convex/_generated/api';
 import { Id } from '../../../../convex/_generated/dataModel';
 import Body from './_components/body/Body';
+import DeleteGroupDialog from './_components/dialogs/DeleteGroupDialog';
+import LeaveGroupDialog from './_components/dialogs/LeaveGroupDialog';
 import RemoveFriendDialog from './_components/dialogs/RemoveFriendDialog';
 import Header from './_components/Header';
 import ChatInput from './_components/input/ChatInput';
@@ -35,9 +37,22 @@ export default function ConversationPage({
         open={removeFreindDialogOpen}
         setOpen={setRemoveFreindDialogOpen}
       ></RemoveFriendDialog>
+
+      <DeleteGroupDialog
+        conversationId={conversationId}
+        open={deleteGroupDialogOpen}
+        setOpen={setDeleteGroupDialogOpen}
+      />
+
+      <LeaveGroupDialog
+        conversationId={conversationId}
+        open={leaveGroupDialogOpen}
+        setOpen={setleaveGroupDialogOpen}
+      />
+
       <Header
         imageUrl={
-          conversation.isGroup ? undefined : conversation.otherMember.imageUrl
+          conversation.isGroup ? undefined : conversation.otherMember?.imageUrl
         }
         name={
           (conversation.isGroup

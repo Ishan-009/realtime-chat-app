@@ -2,7 +2,6 @@ import { ConvexError } from 'convex/values';
 import { Id } from './_generated/dataModel';
 import { MutationCtx, query, QueryCtx } from './_generated/server';
 import { getUserByClerkId } from './_utils';
-
 export const get = query({
   args: {},
   handler: async (ctx, args) => {

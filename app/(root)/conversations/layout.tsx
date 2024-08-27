@@ -5,7 +5,9 @@ import { Loader2 } from 'lucide-react';
 import React from 'react';
 import { ItemsList } from '../../../components/shared/items-list/ItemsList';
 import { api } from '../../../convex/_generated/api';
+import CreateGroupDialog from './_components/CreateGroupDialog';
 import DMConversationItem from './_components/DMConversationItem';
+import GroupConversationItem from './_components/GroupConversationItem';
 
 type Props = React.PropsWithChildren<{}>;
 
@@ -14,7 +16,7 @@ const ConversationsLayout = ({ children }: Props) => {
 
   return (
     <>
-      <ItemsList title="Conversations">
+      <ItemsList title="Conversations" action={<CreateGroupDialog />}>
         {conversations === undefined ? (
           <div className="w-full h-full flex items-center justify-center">
             <Loader2 className="animate-spin" />
@@ -40,7 +42,15 @@ const ConversationsLayout = ({ children }: Props) => {
                 />
               );
             }
-            return null;
+            return (
+              <GroupConversationItem
+                key={conversation.conversation._id}
+                id={conversation.conversation._id}
+                name={conversation.conversation.name || ''}
+                lastMessageContent={conversation.lastMessage?.content || ''}
+                lastMessageSender={conversation.lastMessage?.sender || ''}
+              />
+            );
           })
         )}
       </ItemsList>
