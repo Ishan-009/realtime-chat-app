@@ -99,12 +99,12 @@ const CreateGroupDialog = () => {
   return (
     <Dialog>
       <Tooltip>
-        <TooltipTrigger>
-          <Button size="icon" variant="outline">
-            <DialogTrigger asChild>
+        <TooltipTrigger asChild>
+          <DialogTrigger asChild>
+            <Button size="icon" variant="outline">
               <CirclePlus />
-            </DialogTrigger>
-          </Button>
+            </Button>
+          </DialogTrigger>
         </TooltipTrigger>
         <TooltipContent>
           <p>Create Group</p>

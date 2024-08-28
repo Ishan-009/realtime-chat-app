@@ -1,14 +1,19 @@
 'use client';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { ThemeToggle } from '@/components/ui/theme/theme-toggle';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useNavigation } from '../../../../app/hooks/useNavigation';
-import { Badge } from '../../../ui/badge';
-import { Button } from '../../../ui/button';
-import { Card } from '../../../ui/card';
-import { ThemeToggle } from '../../../ui/theme/theme-toggle';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
+
 const DesktopNav = () => {
-  console.log('Desktop Nav Component');
+  console.log('Desktop Nav');
 
   const paths = useNavigation();
 
@@ -19,26 +24,26 @@ const DesktopNav = () => {
           {paths.map((path, id) => {
             return (
               <li key={id} className="relative">
-                <Link href={path.href}>
-                  <Tooltip>
-                    <TooltipTrigger>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link href={path.href}>
                       <Button
                         size="icon"
                         variant={path.active ? 'default' : 'outline'}
                       >
                         {path.icon}
                       </Button>
-                      {path.count ? (
-                        <Badge className="absolute left-6 bottom-7 px-2">
-                          {path.count}
-                        </Badge>
-                      ) : null}
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>{path.name}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </Link>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{path.name}</p>
+                  </TooltipContent>
+                </Tooltip>
+                {path.count ? (
+                  <Badge className="absolute left-6 bottom-7 px-2">
+                    {path.count}
+                  </Badge>
+                ) : null}
               </li>
             );
           })}
