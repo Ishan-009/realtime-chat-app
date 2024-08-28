@@ -3,18 +3,20 @@ import { MessageSquare, Users } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { api } from '../../convex/_generated/api';
+
 export const useNavigation = () => {
   const pathName = usePathname();
   const requestsCount = useQuery(api.requests.count);
   const conversations = useQuery(api.conversations.get);
 
   const unseenMessageCount = useMemo(() => {
-    return (
-      conversations?.reduce((acc, curr) => {
-        return acc + (curr.unseenCount || 0);
-      }, 0) || 0
+    if (!conversations) return 0;
+    return conversations.reduce(
+      (acc, curr) => acc + (curr.unseenCount || 0),
+      0
     );
   }, [conversations]);
+
   const paths = useMemo(
     () => [
       {
@@ -35,7 +37,8 @@ export const useNavigation = () => {
     [pathName, requestsCount, unseenMessageCount]
   );
 
-  return paths;
+  const isLoading = conversations === undefined || requestsCount === undefined;
+  const error = conversations === null || requestsCount === null;
+
+  return { paths, isLoading, error };
 };
-// card
-// tooltip

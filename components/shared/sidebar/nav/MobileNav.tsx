@@ -9,11 +9,21 @@ import { Card } from '../../../ui/card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
 
 const MobileNav = () => {
-  const paths = useNavigation();
+  const { paths, isLoading, error } = useNavigation();
   const { isActive } = useConversation();
-  console.log('Mobile Nav Component');
+
+  console.log('MobileNav render:', { paths, isLoading, error, isActive });
 
   if (isActive) return null;
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Or a more sophisticated loading component
+  }
+
+  if (error) {
+    return <div>Error loading navigation data</div>; // Or a more user-friendly error message
+  }
+
   return (
     <Card className="fixed bottom-4 w-[calc(100vw-32px)] flex items-center h-16 p-2 lg:hidden">
       <nav className="w-full">
@@ -36,11 +46,11 @@ const MobileNav = () => {
                     <p>{path.name}</p>
                   </TooltipContent>
                 </Tooltip>
-                {path.count !== undefined && path.count > 0 && (
+                {path.count ? (
                   <Badge className="absolute -top-2 -right-2 px-2">
                     {path.count}
                   </Badge>
-                )}
+                ) : null}
               </li>
             );
           })}

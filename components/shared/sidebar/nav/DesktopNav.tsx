@@ -1,21 +1,25 @@
 'use client';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { ThemeToggle } from '@/components/ui/theme/theme-toggle';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import { useNavigation } from '../../../../app/hooks/useNavigation';
+import { Badge } from '../../../ui/badge';
+import { Button } from '../../../ui/button';
+import { Card } from '../../../ui/card';
+import { ThemeToggle } from '../../../ui/theme/theme-toggle';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
 
 const DesktopNav = () => {
-  console.log('Desktop Nav');
+  const { paths, isLoading, error } = useNavigation();
 
-  const paths = useNavigation();
+  console.log('DesktopNav render:', { paths, isLoading, error });
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Or a more sophisticated loading component
+  }
+
+  if (error) {
+    return <div>Error loading navigation data</div>; // Or a more user-friendly error message
+  }
 
   return (
     <Card className="hidden lg:flex lg:flex-col lg:justify-between lg:items-center lg:h-full lg:w-16 lg:px-2 lg:py-4">
