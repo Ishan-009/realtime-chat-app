@@ -8,6 +8,8 @@ import { Card } from '../../../ui/card';
 import { ThemeToggle } from '../../../ui/theme/theme-toggle';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
 const DesktopNav = () => {
+  console.log('Desktop Nav Component');
+
   const paths = useNavigation();
 
   return (
@@ -26,11 +28,11 @@ const DesktopNav = () => {
                       >
                         {path.icon}
                       </Button>
-                      {path.count !== undefined && path.count > 0 && (
-                        <Badge className="absolute -top-2 -right-2 px-2">
+                      {path.count ? (
+                        <Badge className="absolute left-6 bottom-7 px-2">
                           {path.count}
                         </Badge>
-                      )}
+                      ) : null}
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>{path.name}</p>

@@ -12,6 +12,7 @@ const MobileNav = () => {
   const paths = useNavigation();
 
   const { isActive } = useConversation();
+  console.log('Mobile Nav Component');
 
   if (isActive) return null;
   return (

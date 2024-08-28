@@ -4,6 +4,8 @@ import MobileNav from './nav/MobileNav';
 type Props = React.PropsWithChildren<{}>;
 
 const SidebarWrapper = ({ children }: Props) => {
+  console.log('Sidebar Wrapper');
+
   return (
     <div className="h-full w-full p-4 flex flex-col lg:flex-row gap-4">
       <DesktopNav />
