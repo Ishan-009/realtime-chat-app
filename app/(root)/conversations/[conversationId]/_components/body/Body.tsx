@@ -103,7 +103,7 @@ const Body = ({ members }: Props) => {
           index > 0 &&
           messages[index - 1].message.senderId === message.senderId;
         const seenMessage = isCurrentUser
-          ? getSeenMessage(message._id)
+          ? getSeenMessage(message._id, message.senderId)
           : undefined;
         return (
           <Message
