@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Avatar, AvatarImage } from '../../../../components/ui/avatar';
+import { Badge } from '../../../../components/ui/badge';
 import { Card } from '../../../../components/ui/card';
 import { Id } from '../../../../convex/_generated/dataModel';
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
   username: string;
   lastMessageContent?: string;
   lastMessageSender?: string;
+  unseenCount: number;
 };
 
 const DMConversationItem = ({
@@ -16,10 +18,11 @@ const DMConversationItem = ({
   username,
   lastMessageContent,
   lastMessageSender,
+  unseenCount,
 }: Props) => {
   return (
     <Link href={`/conversations/${id}`} className="w-full ">
-      <Card className="p-2 flex flex-row items-center gap-4 truncate">
+      <Card className="p-2 flex flex-row items-center  justify-between">
         <div className="flex flex-row items-center gap-4 truncate">
           <Avatar>
             <AvatarImage src={imageUrl} />
@@ -41,6 +44,7 @@ const DMConversationItem = ({
             )}
           </div>
         </div>
+        {unseenCount ? <Badge>{unseenCount}</Badge> : null}
       </Card>
     </Link>
   );
