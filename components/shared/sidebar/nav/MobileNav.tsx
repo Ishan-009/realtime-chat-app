@@ -2,6 +2,7 @@
 
 import { UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useConversation } from '../../../../app/hooks/useConversation';
 import { useNavigation } from '../../../../app/hooks/useNavigation';
 import { Badge } from '../../../ui/badge';
@@ -10,12 +11,42 @@ import { Card } from '../../../ui/card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../../ui/tooltip';
 
 const MobileNav = () => {
-  const paths = useNavigation();
+  const { paths, isLoading, error } = useNavigation();
   const { isActive } = useConversation();
+  const [retryCount, setRetryCount] = useState(0);
 
-  console.log('MobileNav render:', { paths, isActive });
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setRetryCount((prev) => prev + 1), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, retryCount]);
 
   if (isActive) return null;
+
+  if (isLoading) {
+    return (
+      <Card className="fixed bottom-4 w-[calc(100vw-32px)] flex items-center justify-center h-16 p-2 lg:hidden">
+        <p>Loading navigation...</p>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="fixed bottom-4 w-[calc(100vw-32px)] flex flex-col items-center justify-center h-16 p-2 lg:hidden">
+        <p>Error loading navigation</p>
+        <Button
+          onClick={() => setRetryCount((prev) => prev + 1)}
+          size="sm"
+          variant="outline"
+          className="mt-2"
+        >
+          Retry
+        </Button>
+      </Card>
+    );
+  }
 
   return (
     <Card className="fixed bottom-4 w-[calc(100vw-32px)] flex items-center h-16 p-2 lg:hidden">

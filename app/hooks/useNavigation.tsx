@@ -2,19 +2,22 @@ import { api } from '@/convex/_generated/api';
 import { useQuery } from 'convex/react';
 import { MessageSquare, Users } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export const useNavigation = () => {
   const pathname = usePathname();
 
-  const requestsCount = useQuery(api.requests.count) ?? 0;
-  const conversations = useQuery(api.conversations.get) ?? [];
+  const requestsCount = useQuery(api.requests.count);
+  const conversations = useQuery(api.conversations.get);
 
-  const unseenMessagesCount = useMemo(() => {
-    return conversations.reduce((acc, curr) => {
-      return acc + (curr.unseenCount ?? 0);
-    }, 0);
-  }, [conversations]);
+  const calculateUnseenMessagesCount = useCallback((convs) => {
+    return convs?.reduce((acc, curr) => acc + (curr.unseenCount ?? 0), 0) ?? 0;
+  }, []);
+
+  const unseenMessagesCount = useMemo(
+    () => calculateUnseenMessagesCount(conversations),
+    [conversations, calculateUnseenMessagesCount]
+  );
 
   const paths = useMemo(
     () => [
@@ -30,11 +33,22 @@ export const useNavigation = () => {
         href: '/friends',
         icon: <Users />,
         active: pathname === '/friends',
-        count: requestsCount,
+        count: requestsCount ?? 0,
       },
     ],
     [pathname, requestsCount, unseenMessagesCount]
   );
 
-  return paths;
+  const isLoading = requestsCount === undefined || conversations === undefined;
+  const error = isLoading
+    ? null
+    : requestsCount === null || conversations === null
+      ? new Error('Failed to fetch data')
+      : null;
+
+  return {
+    paths: error ? [] : paths,
+    isLoading,
+    error,
+  };
 };
