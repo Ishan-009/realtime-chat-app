@@ -6,7 +6,6 @@ import { Id } from '../../../../convex/_generated/dataModel';
 type Props = {
   id: Id<'conversations'>;
   name: string;
-  username: string;
   lastMessageContent?: string;
   lastMessageSender?: string;
   unseenCount: number;
