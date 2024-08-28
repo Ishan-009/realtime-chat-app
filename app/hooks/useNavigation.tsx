@@ -1,20 +1,19 @@
+import { api } from '@/convex/_generated/api';
 import { useQuery } from 'convex/react';
 import { MessageSquare, Users } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
-import { api } from '../../convex/_generated/api';
 
 export const useNavigation = () => {
-  const pathName = usePathname();
-  const requestsCount = useQuery(api.requests.count);
-  const conversations = useQuery(api.conversations.get);
+  const pathname = usePathname();
 
-  const unseenMessageCount = useMemo(() => {
-    if (!conversations) return 0;
-    return conversations.reduce(
-      (acc, curr) => acc + (curr.unseenCount || 0),
-      0
-    );
+  const requestsCount = useQuery(api.requests.count) ?? 0;
+  const conversations = useQuery(api.conversations.get) ?? [];
+
+  const unseenMessagesCount = useMemo(() => {
+    return conversations.reduce((acc, curr) => {
+      return acc + (curr.unseenCount ?? 0);
+    }, 0);
   }, [conversations]);
 
   const paths = useMemo(
@@ -23,22 +22,19 @@ export const useNavigation = () => {
         name: 'Conversations',
         href: '/conversations',
         icon: <MessageSquare />,
-        active: pathName.startsWith('/conversations'),
-        count: unseenMessageCount,
+        active: pathname.startsWith('/conversations'),
+        count: unseenMessagesCount,
       },
       {
         name: 'Friends',
         href: '/friends',
         icon: <Users />,
-        active: pathName.startsWith('/friends'),
+        active: pathname === '/friends',
         count: requestsCount,
       },
     ],
-    [pathName, requestsCount, unseenMessageCount]
+    [pathname, requestsCount, unseenMessagesCount]
   );
 
-  const isLoading = conversations === undefined || requestsCount === undefined;
-  const error = conversations === null || requestsCount === null;
-
-  return { paths, isLoading, error };
+  return paths;
 };
