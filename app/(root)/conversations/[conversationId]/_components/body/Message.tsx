@@ -69,14 +69,11 @@ const Message = ({
         {seen}
       </div>
       <Avatar
-        className={
-          (cn('relative w-8 h-8'),
-          {
-            'order-2': fromCurrentUser,
-            'order-1': !fromCurrentUser,
-            invisible: lastByUser,
-          })
-        }
+        className={cn('relative w-8 h-8', {
+          'order-2': fromCurrentUser,
+          'order-1': !fromCurrentUser,
+          invisible: lastByUser,
+        })}
       >
         <AvatarImage src={senderImage} />
         <AvatarFallback>{senderName.substring(0, 1)}</AvatarFallback>

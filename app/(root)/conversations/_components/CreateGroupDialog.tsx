@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQuery } from 'convex/react';
 import { ConvexError } from 'convex/values';
 import { CirclePlus, X } from 'lucide-react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -76,24 +76,25 @@ const CreateGroupDialog = () => {
     return friends
       ? friends.filter((friend) => !members.includes(friend._id))
       : [];
-  }, [members.length, friends?.length]);
+  }, [friends, members]);
 
-  const handleSubmit = async (
-    values: z.infer<typeof createGroupFormSchema>
-  ) => {
-    await createGroup({ name: values.name, members: values.members })
-      .then(() => {
+  const handleSubmit = useCallback(
+    async (values: z.infer<typeof createGroupFormSchema>) => {
+      try {
+        await createGroup({ name: values.name, members: values.members });
         form.reset();
-        toast.success('Group created!');
-      })
-      .catch((error) => {
-        toast.error(
-          error instanceof ConvexError
-            ? error.data
-            : 'Unexpected error occurred'
-        );
-      });
-  };
+        toast.success('Group created successfully!');
+      } catch (error) {
+        if (error instanceof ConvexError) {
+          toast.error(`Error creating group: ${error.data}`);
+        } else {
+          toast.error('An unexpected error occurred while creating the group');
+        }
+        console.error('Group creation error:', error);
+      }
+    },
+    [createGroup, form]
+  );
 
   return (
     <Dialog>

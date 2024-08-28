@@ -41,18 +41,20 @@ const Body = ({ members }: Props) => {
     }
   }, [messages, conversationId, markRead, pending]);
 
-  const getSeenMessage = (messageId: Id<'messages'>) => {
+  const getSeenMessage = (messageId: Id<'messages'>, senderId: Id<'users'>) => {
+    if (!members) return undefined;
+
     const seenUsers = members
-      .filter((member) => member.lastSeenMessageId === messageId)
+      .filter(
+        (member) =>
+          member.lastSeenMessageId === messageId && member._id !== senderId
+      )
       .map((user) => user.username!.split(' ')[0]);
 
-    if (seenUsers.length === 0) {
-      return undefined;
-    }
+    if (seenUsers.length === 0) return undefined;
 
     return formatSeenBy(seenUsers);
   };
-
   const formatSeenBy = (names: string[]) => {
     switch (names.length) {
       case 1:
