@@ -92,7 +92,7 @@ export default function ConversationPage({
         members={
           conversation.isGroup
             ? conversation.otherMembers
-              ? conversation.otherMember
+              ? conversation.otherMembers
               : []
             : conversation.otherMember
               ? [conversation.otherMember]

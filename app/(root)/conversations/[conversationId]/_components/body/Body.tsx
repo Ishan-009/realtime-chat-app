@@ -16,8 +16,9 @@ import Message from './Message';
 
 type Props = {
   members: {
-    lastSeenMessageId: Id<'messages'>;
-    username: string;
+    _id?: Id<'users'>;
+    lastSeenMessageId?: Id<'messages'>;
+    username?: string;
     [key: string]: any;
   }[];
 };
