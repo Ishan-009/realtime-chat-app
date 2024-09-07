@@ -4,9 +4,9 @@ import { api } from '@/convex/_generated/api';
 import { useQuery } from 'convex/react';
 import { Loader2 } from 'lucide-react';
 import ConversationFallback from '../../../components/shared/conversations/ConversationFallback';
+import ItemsList from '../../../components/shared/items-list/ItemsList';
 import AddFriendDialog from './_components/AddFriendDialog';
 import Request from './_components/Request';
-import { ItemsList } from '../../../components/shared/items-list/ItemsList';
 
 const FriendsPage = () => {
   const requests = useQuery(api.requests.get);

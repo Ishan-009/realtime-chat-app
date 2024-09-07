@@ -8,7 +8,7 @@ type Props = React.PropsWithChildren<{
   action?: React.ReactNode;
 }>;
 
-const ItemList = ({ children, title, action: Action }: Props) => {
+const ItemsList = ({ children, title, action: Action }: Props) => {
   const { isActive } = useConversation();
 
   return (
@@ -29,4 +29,4 @@ const ItemList = ({ children, title, action: Action }: Props) => {
   );
 };
 
-export default ItemList;
+export default ItemsList;
