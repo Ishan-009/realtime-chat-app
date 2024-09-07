@@ -93,7 +93,9 @@ const Body = ({ members }: Props) => {
   };
 
   if (!messages || messages.length === 0) {
-    return null;
+    return (
+      <div className="flex-1 w-full flex overflow-y-scroll flex-col-reverse gap-2 p-3 no-scrollbar"></div>
+    );
   }
 
   return (

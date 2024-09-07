@@ -1,9 +1,10 @@
 import { TooltipProvider } from '@radix-ui/react-tooltip';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import SidebarWrapper from '../components/shared/sidebar/SidebarWrapper';
 import { Toaster } from '../components/ui/sonner';
 import { ThemeProvider } from '../components/ui/theme/theme-provider';
-import ConvexClientProvider from './../providers/ConvexClientProvider';
+import { ConvexClientProvider } from '../providers/ConvexClientProvider';
 import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
@@ -26,7 +27,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ConvexClientProvider>
-            <TooltipProvider>{children}</TooltipProvider>
+            <TooltipProvider>
+              <SidebarWrapper>{children}</SidebarWrapper>
+            </TooltipProvider>
             <Toaster richColors></Toaster>
           </ConvexClientProvider>
         </ThemeProvider>

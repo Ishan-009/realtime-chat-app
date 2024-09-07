@@ -2,45 +2,21 @@ import { api } from '@/convex/_generated/api';
 import { useQuery } from 'convex/react';
 import { MessageSquare, Users } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { useCallback, useMemo } from 'react';
-
-// Define types for your conversations and requests
-type Conversation = {
-  unseenCount?: number;
-  // Add other properties as needed
-};
-
-type NavigationPath = {
-  name: string;
-  href: string;
-  icon: JSX.Element;
-  active: boolean;
-  count: number;
-};
+import { useMemo } from 'react';
 
 export const useNavigation = () => {
   const pathname = usePathname();
 
   const requestsCount = useQuery(api.requests.count);
-  const conversations = useQuery(api.conversations.get) as
-    | Conversation[]
-    | undefined;
+  const conversations = useQuery(api.conversations.get);
 
-  const calculateUnseenMessagesCount = useCallback(
-    (convs: Conversation[] | undefined): number => {
-      return (
-        convs?.reduce((acc, curr) => acc + (curr.unseenCount ?? 0), 0) ?? 0
-      );
-    },
-    []
-  );
+  const unseenMessagesCount = useMemo(() => {
+    return conversations?.reduce((acc, curr) => {
+      return acc + curr.unseenCount;
+    }, 0);
+  }, [conversations]);
 
-  const unseenMessagesCount = useMemo(
-    () => calculateUnseenMessagesCount(conversations),
-    [conversations, calculateUnseenMessagesCount]
-  );
-
-  const paths: NavigationPath[] = useMemo(
+  const paths = useMemo(
     () => [
       {
         name: 'Conversations',
@@ -54,22 +30,11 @@ export const useNavigation = () => {
         href: '/friends',
         icon: <Users />,
         active: pathname === '/friends',
-        count: requestsCount ?? 0,
+        count: requestsCount,
       },
     ],
     [pathname, requestsCount, unseenMessagesCount]
   );
 
-  const isLoading = requestsCount === undefined || conversations === undefined;
-  const error = isLoading
-    ? null
-    : requestsCount === null || conversations === null
-      ? new Error('Failed to fetch data')
-      : null;
-
-  return {
-    paths: error ? [] : paths,
-    isLoading,
-    error,
-  };
+  return paths;
 };
